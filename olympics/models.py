@@ -20,3 +20,10 @@ class Competition(models.Model):
     def finish(self):
         self.finished=True
         self.save()
+
+
+class Athlete(models.Model):
+    name = models.CharField(max_length=200, unique=True)
+
+    def __str__(self):
+        return self.name
