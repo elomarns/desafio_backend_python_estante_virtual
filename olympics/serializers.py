@@ -1,15 +1,25 @@
 from rest_framework import serializers
 from .models import Competition, Athlete, Result
 
-class CompetitionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Competition
-        fields = '__all__'
-
-
 class AthleteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Athlete
+        fields = '__all__'
+
+
+class SimpleResultSerializer(serializers.ModelSerializer):
+    athlete = AthleteSerializer(read_only=True)
+
+    class Meta:
+        model = Result
+        fields = ('id', 'athlete', 'value')
+
+
+class CompetitionSerializer(serializers.ModelSerializer):
+    ranking = SimpleResultSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Competition
         fields = '__all__'
 
 

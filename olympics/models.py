@@ -18,6 +18,18 @@ class Competition(models.Model):
     def __str__(self):
         return self.name
 
+    def ranking(self):
+        query = f"SELECT *, {self.criterion_for_best_result}(value) as value FROM olympics_result "
+        query += f"WHERE competition_id = {self.id} "
+        query += "GROUP BY athlete_id "
+
+        if self.criterion_for_best_result == "max":
+          query += "ORDER BY value DESC"
+        else:
+          query += "ORDER BY value ASC"
+
+        return Result.objects.raw(query)
+
     def finish(self):
         self.finished=True
         self.save()
