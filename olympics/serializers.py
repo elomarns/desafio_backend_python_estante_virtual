@@ -17,6 +17,7 @@ class SimpleResultSerializer(serializers.ModelSerializer):
 
 class CompetitionSerializer(serializers.ModelSerializer):
     ranking = SimpleResultSerializer(read_only=True, many=True)
+    winner_result = SimpleResultSerializer(read_only=True)
 
     class Meta:
         model = Competition

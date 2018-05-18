@@ -30,6 +30,13 @@ class Competition(models.Model):
 
         return Result.objects.raw(query)
 
+    def winner_result(self):
+        if self.finished:
+            ranking = list(self.ranking())
+
+            if len(ranking) > 0:
+                return self.ranking()[0]
+
     def finish(self):
         self.finished=True
         self.save()
