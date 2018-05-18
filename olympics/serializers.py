@@ -23,9 +23,15 @@ class CompetitionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class SimpleCompetitionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Competition
+        fields = ('id', 'name', 'unit', 'finished', 'results_limit_per_athlete', 'criterion_for_best_result')
+
+
 class ResultSerializer(serializers.ModelSerializer):
     competition_id = serializers.IntegerField(write_only=True)
-    competition = CompetitionSerializer(read_only=True)
+    competition = SimpleCompetitionSerializer(read_only=True)
     athlete_id = serializers.IntegerField(write_only=True)
     athlete = AthleteSerializer(read_only=True)
 
